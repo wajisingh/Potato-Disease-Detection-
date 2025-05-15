@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Potato Disease Classifier</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px 0 rgba(0, 255, 255, 0.2);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background-color: #00cec9;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #00e6e0;
+    }
+
+    .btn-ai {
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+    }
+
+    .btn-ai:hover {
+      background-color: #a29bfe;
+    }
+
+    .img-preview {
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid #00cec9;
+      margin-top: 15px;
+    }
+
+    .label-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .text-highlight {
+      color: #00e6e0;
+    }
+
+    h2 {
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+
+    .ai-response {
+      background-color: rgba(108, 92, 231, 0.1);
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+      font-style: italic;
+      color: #dfe6e9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glass-card text-center">
+    <h2>🌿 Potato Disease Classifier</h2>
+
+    <form action="/" method="post" enctype="multipart/form-data">
+      <div class="mb-3 text-start">
+        <label for="fileInput" class="form-label">Upload an image:</label>
+        <input type="file" class="form-control" id="fileInput" name="file" accept=".jpg, .jpeg, .png" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">🔍 Predict</button>
+    </form>
+
+    {% if message %}
+      <div class="alert alert-warning mt-4" role="alert">
+        {{ message }}
+      </div>
+    {% endif %}
+
+    {% if image_path %}
+      <img src="{{ image_path }}" alt="Uploaded Image" class="img-fluid img-preview">
+      <div class="label-box">
+        <p><strong>Actual Label:</strong> <span class="text-highlight">{{ actual_label }}</span></p>
+        <p><strong>Predicted Label:</strong> <span class="text-highlight">{{ predicted_label }}</span></p>
+        <p><strong>Confidence:</strong> <span class="text-highlight">{{ confidence }}%</span></p>
+      </div>
+
+      <!-- AI Chatbot Button -->
+      <form action="/describe" method="post">
+        <input type="hidden" name="image_path" value="{{ image_path }}">
+        <button type="submit" class="btn btn-ai mt-3 w-100">🧠 Describe with AI Chatbot</button>
+      </form>
+
+      <!-- AI Response -->
+      {% if ai_description %}
+        <div class="ai-response">
+          🤖 <strong>AI Description:</strong>
+          <pre style="white-space: pre-wrap;">{{ ai_description }}</pre>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
